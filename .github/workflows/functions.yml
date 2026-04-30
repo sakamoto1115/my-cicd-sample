@@ -1,0 +1,23 @@
+name: Functions
+on: push
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - run: printenv | grep '_COMPARE'
+        env:
+          CONTAINS_COMPARE: ${{ contains('Hello', 'lo') }}
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: printenv | grep '_GENERATE'
+        env:
+          FORMAT_GENERATE: ${{ format('{0}, {1}!', 'Hi', 'world') }}
+          JOIN_GENERATE: ${{ join(github.event.*.html_url, ', ') }}
+  hash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "${HASH}"
+        env:
+          HASH: ${{ hashFiles('.github/workflows/*.yml') }}
